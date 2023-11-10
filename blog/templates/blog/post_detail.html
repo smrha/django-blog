@@ -25,21 +25,23 @@
                 </div>
                 <div class="comment-section wow fadeInUp">
                     <h5 class="section-title">Leave a Reply</h5>
-                    <form action="POST" class="oleez-comment-form">
+
+
+                    <form method='post' class="oleez-comment-form">
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <input type="text" class="oleez-input" id="fullName" name="fullName" required>
-                                <label for="fullName">*Full name</label>
+                                {{ comment_form.name }}
+                                <label for="fullName">*{{ comment_form.name.label }}</label>
                             </div>
                             <div class="form-group col-md-6">
-                                <input type="email" class="oleez-input" id="fullName" name="email" required>
-                                <label for="email">*Email</label>
+                                {{ comment_form.email }}
+                                <label for="fullName">*{{ comment_form.email.label }}</label>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-12">
-                                <label for="message">*Message</label>
-                                <textarea name="message" id="message" rows="10" class="oleez-textarea" required></textarea>
+                            <div class="form-group col-md-12">
+                                {{ comment_form.body }}
+                                <label for="fullName">*{{ comment_form.body.label }}</label>
                             </div>
                         </div>
                         <div class="row">
@@ -47,7 +49,9 @@
                                 <button type="submit" class="btn btn-submit">Send</button>
                             </div>
                         </div>
+                        {% csrf_token %}
                     </form>
+
                     <p>
                         <a href="{% url 'blog:post_share' post.id %}">
                             Share this post
