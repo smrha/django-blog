@@ -2,18 +2,23 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from django.views.decorators.http import require_POST
+from taggit.models import Tag
 
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from .forms import EmailPostForm, CommentForm
 
 def blog_list(request):
     post_list = Post.published.all()
+    categories = Category.objects.all()
+    tags = Tag.objects.all()
     paginator = Paginator(post_list, 3)
     page_number = request.GET.get('page', 1)
     posts = paginator.page(page_number)
 
     context = {
         'posts': posts,
+        'categories': categories,
+        'tags': tags,
     }
     return render(request, 'blog/blog_list.html', context)
 

@@ -2,6 +2,18 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth. models import User
 from django.utils import timezone
+from taggit.managers import TaggableManager
+
+class Category(models.Model):
+    name = models.CharField(max_length=64)
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return self.name
+
 
 class PublishManager(models.Manager):
     def qet_queryset(self):
@@ -18,6 +30,10 @@ class Post(models.Model):
                                on_delete=models.CASCADE,
                                related_name='blog_posts')
     body = models.TextField()
+    tags = TaggableManager()
+    category = models.ManyToManyField(Category,
+                                      related_name='category_posts',
+                                      blank=True)
     photo = models.ImageField(upload_to='posts/%Y/%m/%d',
                               blank=True)
     publish = models.DateTimeField(default=timezone.now)
